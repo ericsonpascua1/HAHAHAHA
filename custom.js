@@ -5,7 +5,7 @@ module.exports = async ({ api }) => {
   const axios = require("axios");
   const yandeva = {
     autoRestart: {
-      status: true,
+      status: false,
       time: 30, //40 minutes
       note: "To avoid problems, enable periodic bot restarts",
     },
