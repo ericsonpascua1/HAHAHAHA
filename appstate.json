@@ -5,8 +5,13 @@
         "domain": "facebook.com",
         "path": "/login/device-based/",
         "hostOnly": false,
+<<<<<<< Updated upstream
         "creation": "2024-06-02T08:35:49.355Z",
         "lastAccessed": "2024-06-02T08:35:49.356Z"
+=======
+        "creation": "2024-06-02T10:51:05.617Z",
+        "lastAccessed": "2024-06-02T10:51:05.617Z"
+>>>>>>> Stashed changes
     },
     {
         "key": "sb",
@@ -14,6 +19,7 @@
         "domain": "facebook.com",
         "path": "/",
         "hostOnly": false,
+<<<<<<< Updated upstream
         "creation": "2024-06-02T08:35:49.356Z",
         "lastAccessed": "2024-06-02T08:35:49.356Z"
     },
@@ -25,6 +31,10 @@
         "hostOnly": false,
         "creation": "2024-06-02T08:35:49.356Z",
         "lastAccessed": "2024-06-02T08:35:49.356Z"
+=======
+        "creation": "2024-06-02T10:51:05.617Z",
+        "lastAccessed": "2024-06-02T10:51:05.617Z"
+>>>>>>> Stashed changes
     },
     {
         "key": "ps_n",
@@ -32,8 +42,13 @@
         "domain": "facebook.com",
         "path": "/",
         "hostOnly": false,
+<<<<<<< Updated upstream
         "creation": "2024-06-02T08:35:49.356Z",
         "lastAccessed": "2024-06-02T08:35:49.356Z"
+=======
+        "creation": "2024-06-02T10:51:05.617Z",
+        "lastAccessed": "2024-06-02T10:51:05.617Z"
+>>>>>>> Stashed changes
     },
     {
         "key": "ps_l",
@@ -41,8 +56,13 @@
         "domain": "facebook.com",
         "path": "/",
         "hostOnly": false,
+<<<<<<< Updated upstream
         "creation": "2024-06-02T08:35:49.356Z",
         "lastAccessed": "2024-06-02T08:35:49.356Z"
+=======
+        "creation": "2024-06-02T10:51:05.617Z",
+        "lastAccessed": "2024-06-02T10:51:05.617Z"
+>>>>>>> Stashed changes
     },
     {
         "key": "vpd",
@@ -50,6 +70,7 @@
         "domain": "facebook.com",
         "path": "/",
         "hostOnly": false,
+<<<<<<< Updated upstream
         "creation": "2024-06-02T08:35:49.356Z",
         "lastAccessed": "2024-06-02T08:35:49.356Z"
     },
@@ -70,6 +91,28 @@
         "hostOnly": false,
         "creation": "2024-06-02T08:35:49.356Z",
         "lastAccessed": "2024-06-02T08:35:49.356Z"
+=======
+        "creation": "2024-06-02T10:51:05.617Z",
+        "lastAccessed": "2024-06-02T10:51:05.617Z"
+    },
+    {
+        "key": "datr",
+        "value": "__GMZCgwVF5BbyvAtfJojQwg",
+        "domain": "facebook.com",
+        "path": "/",
+        "hostOnly": true,
+        "creation": "2024-06-02T10:51:05.617Z",
+        "lastAccessed": "2024-06-02T10:51:05.617Z"
+    },
+    {
+        "key": "locale",
+        "value": "en_US",
+        "domain": "facebook.com",
+        "path": "/",
+        "hostOnly": false,
+        "creation": "2024-06-02T10:51:05.617Z",
+        "lastAccessed": "2024-06-02T10:51:05.617Z"
+>>>>>>> Stashed changes
     },
     {
         "key": "c_user",
@@ -77,6 +120,7 @@
         "domain": "facebook.com",
         "path": "/",
         "hostOnly": false,
+<<<<<<< Updated upstream
         "creation": "2024-06-02T08:35:49.356Z",
         "lastAccessed": "2024-06-02T08:35:49.356Z"
     },
@@ -97,6 +141,19 @@
         "hostOnly": false,
         "creation": "2024-06-02T08:35:49.356Z",
         "lastAccessed": "2024-06-02T08:35:49.356Z"
+=======
+        "creation": "2024-06-02T10:51:05.617Z",
+        "lastAccessed": "2024-06-02T10:51:05.617Z"
+    },
+    {
+        "key": "oo",
+        "value": "v1",
+        "domain": "facebook.com",
+        "path": "/",
+        "hostOnly": false,
+        "creation": "2024-06-02T10:51:05.617Z",
+        "lastAccessed": "2024-06-02T10:51:05.617Z"
+>>>>>>> Stashed changes
     },
     {
         "key": "wd",
@@ -104,6 +161,7 @@
         "domain": "facebook.com",
         "path": "/",
         "hostOnly": false,
+<<<<<<< Updated upstream
         "creation": "2024-06-02T08:35:49.356Z",
         "lastAccessed": "2024-06-02T08:35:49.356Z"
     },
@@ -133,5 +191,27 @@
         "hostOnly": false,
         "creation": "2024-06-02T08:35:49.356Z",
         "lastAccessed": "2024-06-02T08:35:49.356Z"
+=======
+        "creation": "2024-06-02T10:51:05.617Z",
+        "lastAccessed": "2024-06-02T10:51:05.617Z"
+    },
+    {
+        "key": "xs",
+        "value": "15%3Aii2Q_lw78zE-eQ%3A2%3A1717264745%3A-1%3A13706%3A%3AAcWfaOZlEy1J6CZOIQfXLdLfAykxmofHl_Dc3MkXNw",
+        "domain": "facebook.com",
+        "path": "/",
+        "hostOnly": false,
+        "creation": "2024-06-02T10:51:05.617Z",
+        "lastAccessed": "2024-06-02T10:51:05.617Z"
+    },
+    {
+        "key": "fr",
+        "value": "0aJ3VvNsuhw0ruVrm.AWUJarrBiXYFCJ6MbN8T1r9ekK8.BmW2Fn..AAA.0.0.BmXE6X.AWWd8H3pBdU",
+        "domain": "facebook.com",
+        "path": "/",
+        "hostOnly": false,
+        "creation": "2024-06-02T10:51:05.617Z",
+        "lastAccessed": "2024-06-02T10:51:05.617Z"
+>>>>>>> Stashed changes
     }
 ]
