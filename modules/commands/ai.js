@@ -177,8 +177,8 @@ module.exports.handleEvent = async function ({ api, event }) {
   try {
     var uid = event.senderID;
     const response = await axios.get(`https://apis-samir.onrender.com/Gemini?&text=${encodeURIComponent(inputText)}`);
-    if (response.status === 200 && response.data.candidates.content.parts.text) {
-        let formattedResponse = formatFont(response.data.candidates.content.parts.text);
+    if (response.status === 200 && response.data.candidates && response.data.candidates[0] && response.data.candidates[0].content && response.data.candidates[0].content.parts) {
+      let formattedResponse = formatFont(response.data.candidates[0].content.parts[0].text);
         formattedResponse = formattedResponse.replace(/\n\[Image of .*?\]|(\*\*)/g, '').replace(/^\*/gm, '•');
         api.sendMessage(`${formattedResponse}`, event.threadID, event.messageID);
     } else {
