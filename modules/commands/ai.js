@@ -176,9 +176,9 @@ module.exports.handleEvent = async function ({ api, event }) {
 
   try {
     var uid = event.senderID;
-    const response = await axios.get(`https://aki-gemini-conversational-ddff6113969d.herokuapp.com/gemini?prompt=${encodeURIComponent(inputText)}&uid=${uid}`);
-    if (response.status === 200 && response.data.response) {
-        let formattedResponse = formatFont(response.data.response);
+    const response = await axios.get(`https://apis-samir.onrender.com/Gemini?&text=${encodeURIComponent(inputText)}`);
+    if (response.status === 200 && response.data.candidates.content.parts.text) {
+        let formattedResponse = formatFont(response.data.candidates.content.parts.text);
         formattedResponse = formattedResponse.replace(/\n\[Image of .*?\]|(\*\*)/g, '').replace(/^\*/gm, '•');
         api.sendMessage(`${formattedResponse}`, event.threadID, event.messageID);
     } else {
