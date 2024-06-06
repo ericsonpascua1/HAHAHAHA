@@ -121,8 +121,8 @@ async function convertImageToCaption(imageURL, api, event, inputText) {
   try {
     api.sendMessage("Generating response ✅", event.threadID, event.messageID);
 
-    const response = await axios.get(`https://aki-gemini-pro-vision.vercel.app/gemini?prompt=${encodeURIComponent(inputText)}&url=${encodeURIComponent(imageURL)}`);
-    const caption = response.data.response;
+    const response = await axios.get(`https://apis-samir.onrender.com/gemini-pro?&text=${encodeURIComponent(inputText)}&url=${encodeURIComponent(imageURL)}`);
+    const caption = response.data;
 
     if (caption) {
       const formattedCaption = formatFont(caption);
