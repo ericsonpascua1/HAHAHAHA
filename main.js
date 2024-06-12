@@ -1,6 +1,6 @@
 const https = require('https');
 
-const pingUrl = process.env.HEROKU_URL;
+const pingUrl = "http://fi2.bot-hosting.net:20777";
 
 let totalMinutes = 0;
 
