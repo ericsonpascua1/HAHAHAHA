@@ -20,11 +20,11 @@
   "license": "GPL-3.0",
   "author": "Aki Hayakawa",
   "dependencies": {
+    "bluebird": "^3.7.2",
     "iconv-lite": "^0.6.3",
     "@distube/ytdl-core": "^4.13.3",
     "aes-js": "^3.1.2",
     "axios": "^0.26.1",
-    "bluebird": "^2.11.0",
     "canvafy": "^7.0.4",
     "canvas": "^2.11.2",
     "chalk": "^4.1.2",
