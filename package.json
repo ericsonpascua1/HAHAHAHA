@@ -20,6 +20,8 @@
   "license": "GPL-3.0",
   "author": "Aki Hayakawa",
   "dependencies": {
+    "request": "^2.88.2",
+    "tough-cookie": "^4.0.0",
     "bluebird": "^3.7.2",
     "iconv-lite": "^0.6.3",
     "@distube/ytdl-core": "^4.13.3",
@@ -61,7 +63,6 @@
     "path": "^0.12.7",
     "pidusage": "^3.0.0",
     "qrcode": "^1.5.3",
-    "request": "^2.88.2",
     "requests": "^0.3.0",
     "sequelize": "^6.17.0",
     "simple-youtube-api": "^5.2.1",
