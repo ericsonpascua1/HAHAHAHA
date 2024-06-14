@@ -1,6 +1,6 @@
 const https = require('https');
 
-const pingUrl = process.env.BOT_URL;
+const pingUrl = "https://google.com";
 
 let totalMinutes = 0;
 
