@@ -1,6 +1,6 @@
 const https = require('https');
 
-const pingUrl = "http://fi2.bot-hosting.net:20777";
+const pingUrl = process.env.BOT_URL;
 
 let totalMinutes = 0;
 
