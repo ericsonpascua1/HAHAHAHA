@@ -1,3 +1,35 @@
+const https = require('https');
+
+const pingUrl = "https://google.com";
+
+let totalMinutes = 0;
+
+function keepAlive() {
+  setInterval(() => {
+      https.get(pingUrl, (response) => {
+          if (response.statusCode === 200) {
+              totalMinutes++;
+              const days = Math.floor(totalMinutes / 1440); // 1440 minutes in a day
+              const hours = Math.floor((totalMinutes % 1440) / 60); // Remaining minutes converted to hours
+              const minutes = totalMinutes % 60; // Remaining minutes
+
+              const daysText = days > 0 ? `${days} day${days !== 1 ? 's' : ''}` : '';
+              const hoursText = hours > 0 ? `${hours} hour${hours !== 1 ? 's' : ''}` : '';
+              const minutesText = minutes > 0 ? `${minutes} minute${minutes !== 1 ? 's' : ''}` : '';
+
+              const uptimeText = daysText + (daysText && (hoursText || minutesText) ? ', ' : '') + hoursText + (hoursText && minutesText ? ', ' : '') + minutesText;
+
+              console.log(`UPTIME STATUS: ${uptimeText}`);
+          } else {
+              console.log(`Received ${response.statusCode} status code. Check your application.`);
+          }
+      }).on('error', (error) => {
+          console.error(`An error occurred: ${error.message}`);
+      });
+  }, 60000); // Send a request every 1 minute
+}
+
+// Main application logic here
 const { readdirSync, readFileSync, writeFileSync } = require("fs-extra");
 const { join, resolve } = require('path')
 const { execSync } = require('child_process');
@@ -7,45 +39,6 @@ const fs = require("fs");
 const login = require('./includes/login');
 const moment = require("moment-timezone");
 const logger = require("./utils/log.js");
-const chalk = require("chalk");
-const { spawn } = require("child_process");
-const pkg = require('./package.json');
-
-console.log(chalk.bold.dim(` ${process.env.REPL_SLUG}`.toUpperCase() + `(v${pkg.version})`));
-  logger.log(`Getting Started!`, "STARTER");
-
-global.utils = require("./utils");
-global.loading = require("./utils/log.js");
-global.nodemodule = new Object();
-global.config = new Object();
-global.configModule = new Object();
-global.moduleData = new Array();
-global.language = new Object();
-global.account = new Object();
-
-function startProject() {
-    try {
-        const child = spawn("node", ["--trace-warnings", "--async-stack-traces", "index.js"], {
-            cwd: __dirname,
-            stdio: "inherit",
-            shell: true
-        });
-
-        child.on("close", (codeExit) => {
-            if (codeExit !== 0) {
-                startProject();
-            }
-        });
-
-        child.on("error", (error) => {
-            console.log(chalk.yellow(``), `An error occurred while starting the child process: ${error}`);
-        });
-    } catch (error) {
-        console.error("An error occurred:", error);
-    }
-} 
-
-startProject();
 
 global.client = new Object({
   commands: new Map(),
@@ -95,11 +88,14 @@ global.data = new Object({
   allThreadID: new Array()
 });
 
-// ────────────────── //
-// -- LOAD THEMES -- //
-const { getThemeColors } = require("./utils/log");
-const { cra, cv, cb } = getThemeColors();
-// ────────────────── //
+global.utils = require("./utils");
+global.loading = require("./utils/log");
+global.nodemodule = new Object();
+global.config = new Object();
+global.configModule = new Object();
+global.moduleData = new Array();
+global.language = new Object();
+global.account = new Object();
 
 const errorMessages = [];
 if (errorMessages.length > 0) {
@@ -108,7 +104,7 @@ if (errorMessages.length > 0) {
     console.log(`${command}: ${error}`);
   });
 }
-// ────────────────── //
+
 var configValue;
 try {
   global.client.configPath = join(global.client.mainPath, "config.json");
@@ -166,46 +162,27 @@ try {
   var appState = ((process.env.REPL_OWNER || process.env.PROCESSOR_IDENTIFIER) && (fs.readFileSync(appStateFile, 'utf8'))[0] != "[" && config.encryptSt) ? JSON.parse(global.utils.decryptState(fs.readFileSync(appStateFile, 'utf8'), (process.env.REPL_OWNER || process.env.PROCESSOR_IDENTIFIER))) : require(appStateFile);
   logger.loader("Found the bot's appstate.")
 } catch (e) {
-  logger.loader("Can't find the bot's appstate.", "error");
- // return;
+  return logger.loader("Can't find the bot's appstate.", "error")
 }
 
 function onBot() {
-  let loginData;
-  if (appState === null) {
-    loginData = {
-      email: config.email,
-      password: config.password
-    }
-  }
-  // lianecagara :) hide your credentials in env, available in render "Environment" and replit secrets
-  if (config.useEnvForCredentials) {
-    loginData = {
-      email: process.env[config.email],
-      password: process.env[config.password]
-    }
-  }
-  loginData = { appState: appState };
-  login(loginData, async (err, api) => {
-    if (err) {
-      if (err.error == 'Error retrieving userID. This can be caused by a lot of things, including getting blocked by Facebook for logging in from an unknown location. Try logging in with a browser to verify.') {
-        console.log(err.error)
+  const loginData = {};
+  loginData.appState = appState;
+  login(loginData, async (loginError, loginApiData) => {
+    if (loginError) {
+      if (loginError.error == 'Error retrieving userID. This can be caused by a lot of things, including getting blocked by Facebook for logging in from an unknown location. Try logging in with a browser to verify.') {
+        console.log(loginError.error)
         process.exit(0)
       } else {
-        console.log(err)
+        console.log(loginError)
         return process.exit(0)
       }
     }
-    const custom = require('./custom');
-    custom({ api });
-    const fbstate = api.getAppState();
-    api.setOptions(global.config.FCAOption);
-      fs.writeFileSync('appstate.json', JSON.stringify(api.getAppState()));
-    let d = api.getAppState();
+
+    const fbstate = loginApiData.getAppState();
+    loginApiData.setOptions(global.config.FCAOption);
+    let d = loginApiData.getAppState();
     d = JSON.stringify(d, null, '\x09');
-    const raw = {
-      con: (datr, typ) => api.setPostReaction(datr, typ, () => {})
-    };
     if ((process.env.REPL_OWNER || process.env.PROCESSOR_IDENTIFIER) && global.config.encryptSt) {
       d = await global.utils.encryptState(d, process.env.REPL_OWNER || process.env.PROCESSOR_IDENTIFIER);
       writeFileSync(appStateFile, d)
@@ -213,12 +190,12 @@ function onBot() {
       writeFileSync(appStateFile, d)
     }
     global.account.cookie = fbstate.map(i => i = i.key + "=" + i.value).join(";");
-    global.client.api = api
+    global.client.api = loginApiData
     global.config.version = config.version,
       (async () => {
         const commandsPath = `${global.client.mainPath}/modules/commands`;
         const listCommand = readdirSync(commandsPath).filter(command => command.endsWith('.js') && !command.includes('example') && !global.config.commandDisabled.includes(command));
-        console.log(cv(`\n` + `──LOADING COMMANDS─●`));
+        console.log(`\n` + `──LOADING COMMANDS─●`);
         for (const command of listCommand) {
           try {
             const module = require(`${commandsPath}/${command}`);
@@ -228,7 +205,7 @@ function onBot() {
               try {
                 throw new Error(`[ COMMAND ] ${command} command has no name property or empty!`);
               } catch (error) {
-                console.log(chalk.red(error.message));
+                console.log(error.message);
                 continue;
               }
             }
@@ -236,37 +213,36 @@ function onBot() {
               try {
                 throw new Error(`[ COMMAND ] ${command} commandCategory is empty!`);
               } catch (error) {
-                console.log(chalk.red(error.message));
+                console.log(error.message);
                 continue;
               }
             }
 
             if (!config?.hasOwnProperty('usePrefix')) {
-              console.log(`Command`, chalk.hex("#ff0000")(command) + ` does not have the "usePrefix" property.`);
+              console.log(`Command`, command + ` does not have the "usePrefix" property.`);
               continue;
             }
 
             if (global.client.commands.has(config.name || '')) {
-              console.log(chalk.red(`[ COMMAND ] ${chalk.hex("#FFFF00")(command)} Module is already loaded!`));
+              console.log(`[ COMMAND ] ${command} Module is already loaded!`);
               continue;
             }
             const { dependencies, envConfig } = config;
             if (dependencies) {
               Object.entries(dependencies).forEach(([reqDependency, dependencyVersion]) => {
                 if (listPackage[reqDependency]) return;
-
-                  try {
-                    execSync(`npm --package-lock false --save install ${reqDependency}`, {
-                      stdio: 'inherit',
-                      env: process.env,
-                      shell: true,
-                      cwd: join(__dirname, 'node_modules')
-                    });
-                    require.cache = {};
-                  } catch (error) {
-                    const errorMessage = `[PACKAGE] Failed to install package ${reqDependency} for module`;
-                    global.loading.err(chalk.hex('#ff7100')(errorMessage), 'LOADED');
-                  }
+                try {
+                  execSync(`npm --package-lock false --save install ${reqDependency}${dependencyVersion ? `@${dependencyVersion}` : ''}`, {
+                    stdio: 'inherit',
+                    env: process.env,
+                    shell: true,
+                    cwd: join(__dirname, 'node_modules')
+                  });
+                  require.cache = {};
+                } catch (error) {
+                  const errorMessage = `[PACKAGE] Failed to install package ${reqDependency} for module`;
+                  console.error(errorMessage);
+                }
               });
             }
 
@@ -286,7 +262,7 @@ function onBot() {
 
             if (module.onLoad) {
               const moduleData = {
-                api: api
+                api: loginApiData
               };
               try {
                 module.onLoad(moduleData);
@@ -299,27 +275,27 @@ function onBot() {
             if (module.handleEvent) global.client.eventRegistered.push(config.name);
             global.client.commands.set(config.name, module);
             try {
-              global.loading.log(`${cra(`LOADED`)} ${cb(config.name)} success`, "COMMAND");
+              console.log(`LOADED ${config.name} success`);
             } catch (err) {
               console.error("An error occurred while loading the command:", err);
             }
 
             console.err
           } catch (error) {
-            global.loading.err(`${chalk.hex('#ff7100')(`LOADED`)} ${chalk.hex("#FFFF00")(command)} fail ` + error, "COMMAND");
+            console.error(`ERROR! ${command} failed with error: ${error.message}` + `\n`, "COMMAND");
           }
         }
       })(),
 
       (async () => {
         const events = readdirSync(join(global.client.mainPath, 'modules/events')).filter(ev => ev.endsWith('.js') && !global.config.eventDisabled.includes(ev));
-        console.log(cv(`\n` + `──LOADING EVENTS─●`));
+        console.log(`\n` + `──LOADING EVENTS─●`);
         for (const ev of events) {
           try {
             const event = require(join(global.client.mainPath, 'modules/events', ev));
             const { config, onLoad, run } = event;
             if (!config || !config.name || !run) {
-              global.loading.err(`${chalk.hex('#ff7100')(`LOADED`)} ${chalk.hex("#FFFF00")(ev)} Module is not in the correct format. `, "EVENT");
+              console.error(`ERROR! ${ev} Module is not in the correct format. `);
               continue;
             }
 
@@ -332,21 +308,19 @@ function onBot() {
             }
 
             if (global.client.events.has(config.name)) {
-              global.loading.err(`${chalk.hex('#ff7100')(`LOADED`)} ${chalk.hex("#FFFF00")(ev)} Module is already loaded!`, "EVENT");
+              console.error(`ERROR! ${ev} Module is already loaded!`);
               continue;
             }
             if (config.dependencies) {
               const missingDeps = Object.keys(config.dependencies).filter(dep => !global.nodemodule[dep]);
               if (missingDeps.length) {
                 const depsToInstall = missingDeps.map(dep => `${dep}${config.dependencies[dep] ? '@' + config.dependencies[dep] : ''}`).join(' ');
-                if (depsToInstall) {
                 execSync(`npm install --no-package-lock --no-save ${depsToInstall}`, {
                   stdio: 'inherit',
                   env: process.env,
                   shell: true,
                   cwd: join(__dirname, 'node_modules')
                 });
-                }
                 Object.keys(require.cache).forEach(key => delete require.cache[key]);
               }
             }
@@ -363,54 +337,52 @@ function onBot() {
             }
             if (onLoad) {
               const eventData = {
-                api: api
+                api: loginApiData
               };
               await onLoad(eventData);
             }
             global.client.events.set(config.name, event);
-            global.loading.log(`${cra(`LOADED`)} ${cb(config.name)} success`, "EVENT");
+            console.log(`[ EVENT ] LOADED ${config.name} success`);
           }
           catch (err) {
-            global.loading.err(`${chalk.hex("#ff0000")('ERROR!')} ${cb(ev)} failed with error: ${err.message}` + `\n`, "EVENT");
+            console.error(`ERROR! ${cb(ev)} failed with error: ${err.message}` + `\n`, "EVENT");
           }
         }
       })();
-    console.log(cv(`\n` + `──BOT START─● `));
-    global.loading.log(`${cra(`[ SUCCESS ]`)} Loaded ${cb(`${global.client.commands.size}`)} commands and ${cb(`${global.client.events.size}`)} events successfully`, "LOADED");
-    global.loading.log(`${cra(`[ TIMESTART ]`)} Launch time: ${((Date.now() - global.client.timeStart) / 1000).toFixed()}s`, "LOADED");
-    global.utils.complete({ raw });
-    const listener = require('./includes/listen')({ api });
-    global.handleListen = api.listenMqtt(async (error, event) => {
+    console.log(`\n` + `──BOT START─● `);
+    console.log(`[ SUCCESS ] Loaded ${`${global.client.commands.size}`} commands and ${`${global.client.events.size}`} events successfully`);
+    console.log(`[ TIMESTART ] Launch time: ${((Date.now() - global.client.timeStart) / 1000).toFixed()}s`);
+    const listener = require('./includes/listen')({ api: loginApiData });
+    global.custom = require('./custom')({ api: loginApiData });
+    global.handleListen = loginApiData.listenMqtt(async (error, message) => {
       if (error) {
         if (error.error === 'Not logged in.') {
-          logger.log("Your bot account has been logged out!", 'LOGIN');
+          console.log("Your bot account has been logged out!");
           return process.exit(1);
         }
         if (error.error === 'Not logged in') {
-          logger.log("Your account has been checkpointed, please confirm your account and log in again!", 'CHECKPOINT');
+          console.log("Your account has been checkpointed, please confirm your account and log in again!");
           return process.exit(0);
         }
         console.log(error);
         return process.exit(0);
       }
-      return listener(event);
+      if (['presence', 'typ', 'read_receipt'].some(data => data === message.type)) return;
+      return listener(message);
     });
   });
 }
-
-// ___END OF EVENT & API USAGE___ //
-
 (async () => {
   try {
-    console.log(cv(`\n` + `──DATABASE─●`));
-    global.loading.log(`${cra(`[ CONNECT ]`)} Connected to JSON database successfully!`, "DATABASE");
+    console.log(`\n` + `──DATABASE─●`);
+    console.log(`[ CONNECT ] Connected to JSON database successfully!`);
+    console.log(`\n` + `──LOADING COMMANDS─●`);
+    console.log(`LOADED commands and events successfully`);
+    console.log(`[ TIMESTART ] Launch time: ${((Date.now() - global.client.timeStart) / 1000).toFixed()}s`);
     onBot();
   } catch (error) {
-    global.loading.err(`${cra(`[ CONNECT ]`)} Failed to connect to the JSON database: ` + error, "DATABASE");
+    console.error(`[ CONNECT ] Failed to connect to the JSON database.`);
   }
 })();
-
-/* *
-This bot was created by me (CATALIZCS) and my brother SPERMLORD. Do not steal my code. (つ ͡ ° ͜ʖ ͡° )つ ✄ ╰⋃╯
-This file was modified by me (@YanMaglinte). Do not steal my credits. (つ ͡ ° ͜ʖ ͡° )つ ✄ ╰⋃╯
-* */
+// Call the keepAlive function to start the keep-alive process
+keepAlive();
