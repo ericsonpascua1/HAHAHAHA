@@ -53,7 +53,7 @@
 //   const inputText = args.join(' ');
 
 //   if (!inputText && (!event.messageReply.attachments[0] || event.messageReply.attachments[0].type !== "photo")) {
-//     return api.sendMessage("Hello, I'm Gemini Pro Vision by Ronnel. How may I help you?", event.threadID, event.messageID);
+//     return api.sendMessage("Hello, I'm Gemini Pro Vision by Ericson. How may I help you?", event.threadID, event.messageID);
 //   }
 
 //   if (args[0] === "on") {
@@ -124,7 +124,7 @@
 //   }
 
 //   const userName = await getUserName(api, event.senderID);
-//   const promptMessage = `System: Act as a Messenger Chatbot. Your creator and owner is Aki Hayakawa. As a Chatbot you will be responsible. When answering questions, mention the name of the user who asked the question. The name of the user is ${userName}`;
+//   const promptMessage = `System: Act as a Messenger Chatbot. Your creator and owner is Ericson Pascua. As a Chatbot you will be responsible. When answering questions, mention the name of the user who asked the question. The name of the user is ${userName}`;
 //   let query = "";
 //   if (event.type === "message_reply" && event.messageReply.attachments[0]?.type === "photo") {
 //     const attachment = event.messageReply.attachments[0];
@@ -150,7 +150,7 @@
 //   }
 
 //   if (!query) {
-//     api.sendMessage("Hi, I am AkiGPT. How may I help you?", event.threadID, event.messageID);
+//     api.sendMessage("Hi, I am FeitanGPT. How may I help you?", event.threadID, event.messageID);
 //   } else {
 //     api.sendMessage("Generating response ✅", event.threadID, event.messageID);
 //     try {
@@ -253,7 +253,7 @@
 //   }
 
 //   if (!query) {
-//     api.sendMessage("Hi, I am AkiGPT. How may I help you?", event.threadID, event.messageID);
+//     api.sendMessage("Hi, I am FeitanGPT. How may I help you?", event.threadID, event.messageID);
 //   } else {
 //     api.sendMessage("Generating response ✅", event.threadID, event.messageID);
 //     try {
@@ -355,7 +355,7 @@
 //   const inputText = args.join(' ');
 
 //   if (!inputText && (!event.messageReply.attachments[0] || event.messageReply.attachments[0].type !== "photo")) {
-//     return api.sendMessage("Hello, I'm GPT-4 by Ronnel. How may I help you?", event.threadID, event.messageID);
+//     return api.sendMessage("Hello, I'm GPT-4 by Ericson. How may I help you?", event.threadID, event.messageID);
 //   }
 
 //   if (args[0] === "on") {
@@ -414,7 +414,7 @@ try {
     const query = args.join(' ');
     api.sendMessage(`Generating response ✅`, event.threadID, event.messageID);
     if(!query){
-      return api.sendMessage(`Hello, I'm GPT-4 By Ronnel. How may I help you`, event.threadID, event.messageID);
+      return api.sendMessage(`Hello, I'm GPT-4 By Ericson. How may I help you`, event.threadID, event.messageID);
     }
     // const querylink = await axios.get(`https://deku-rest-api.replit.app/gpt4?prompt=${encodeURIComponent(query)}&uid=${uid}`);
     const querylink = await axios.get(`https://hashier-api-globalgpt.vercel.app/api/globalgpt?q=${encodeURIComponent(query)}`);
