@@ -3,7 +3,7 @@ module.exports.config = {
   version: "7.3.1",
   hasPermssion: 1,
   usePrefix: true,
-  credits: "ericson pascua",
+  credits: "Aki Hayakawa",
   description: "Show rankup notifications",
   commandCategory: "Group",
   dependencies: {
@@ -60,7 +60,7 @@ module.exports.handleEvent = async function ({ api, event, Currencies, Users, ge
       // "https://i.imgur.com/lHxvt3g.png",
       // "https://i.imgur.com/5RIrt5U.png",
       // "https://i.imgur.com/ImxHke4.png",
-      "https://i.imgur.com/HyVIGOH.gif"
+      "https://i.postimg.cc/J0prtT2Y/HyVIGOH.gif"
     ];
     var rd = background[Math.floor(Math.random() * background.length)];
     // let getAvtmot = (
@@ -125,7 +125,7 @@ module.exports.run = async function ({ api, event, Threads, getText }) {
 //   version: "7.3.1",
 //   hasPermssion: 1,
 //   usePrefix: true,
-//   credits: "ericson pascua",
+//   credits: "Aki Hayakawa",
 //   description: "Show rankup notifications",
 //   commandCategory: "Group",
 //   dependencies: {
